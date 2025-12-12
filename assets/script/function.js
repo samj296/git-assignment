@@ -3,11 +3,14 @@ let savedTheme = localStorage.getItem("theme")
 document.addEventListener('DOMContentLoaded',() =>{
     let themeBtn = document.createElement('button');
     let btnSection = document.querySelector('.btn-section');
-    
-    btnSection.appendChild(themeBtn);
+    let pdfBtn = document.createElement('button');
 
-        
-    // this variable is for experience.html
+    btnSection.appendChild(themeBtn);
+    btnSection.appendChild(pdfBtn);
+
+    pdfBtn.textContent = "Download Resume"
+    
+    
     
         
         //applying the dark theme here    
@@ -35,9 +38,10 @@ document.addEventListener('DOMContentLoaded',() =>{
                     }
                 }
             }
-            themeBtn.setAttribute("class","switch-theme-dark")
-            themeBtn.textContent = "Light mode"
-            savedTheme = "dark"
+            themeBtn.setAttribute("class","switch-theme-dark");
+            pdfBtn.setAttribute("class","switch-theme-dark");
+            themeBtn.textContent = "Light mode";
+            savedTheme = "dark";
         }
 
         function lightTheme(){   
@@ -65,6 +69,7 @@ document.addEventListener('DOMContentLoaded',() =>{
                 }
             }
             themeBtn.setAttribute("class","switch-theme-light")
+            pdfBtn.setAttribute("class","switch-theme-light");
             themeBtn.textContent = "Dark mode"
             savedTheme = "light"
         }
@@ -87,5 +92,50 @@ document.addEventListener('DOMContentLoaded',() =>{
             localStorage.setItem("theme", "dark")
         }
     })
+
+    //this is for the pdf download
+    pdfBtn.addEventListener("click",pdfDownload);
+
+    function pdfDownload(){
+    
+        let index = "index.html";
+        let project = "projects.html";
+        let experience = "experience.html";
+        
+        document.body.innerHTML = "";
+        /* here I will grab the content from index.html */
+
+        fetch(index)
+        .then(function(response){
+            return response.text();
+        })
+        .then(function(data){
+            let parser = new DOMParser();
+            indexDom = parser.parseFromString(data,"text/html");
+            indexFileFetcher(indexDom)
+        })
+
+        function indexFileFetcher(dom){
+            let card = dom.querySelectorAll(".card-text");
+            let cardText = document.createElement("section");
+
+            for(let el of card){
+                
+            }
+
+            let intro = dom.querySelectorAll("intro");
+            let introText = document.createElement("section");
+
+            for(let el of intro){
+                let elText = el.textContent
+                let pTag = document.createElement("p");
+                pTag.innerText = elText;
+                introText.appendChild(pTag);
+            }
+
+
+
+        }
+    }
     
 })
