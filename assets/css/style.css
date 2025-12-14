@@ -186,12 +186,20 @@ body{
 
 
 .sec-intro{
-    margin: 20px;
     display: grid;
     grid-template-columns: repeat(3, 3fr);
     grid-gap: 20px;
+    
 }
 
+.intro{
+    border: grey solid;
+}
+
+.skill-section{
+    border: grey solid;
+    margin: 5px 0px;
+}
 
  /* this is to make the text at the center */
 .project-teaser h2{

@@ -97,12 +97,34 @@ document.addEventListener('DOMContentLoaded',() =>{
     pdfBtn.addEventListener("click",pdfDownload);
 
     function pdfDownload(){
+        let currentPage = "";
+        //selecting the current page by title and will save the link in a variable
+        switch(document.title){
+            case "Sam Joseph | Portfolio":
+                currentPage = "index.html";
+                break;
+            case "Sam Joseph | Project":
+                currentPage = "projects.html";
+                break;
+            case "Sam Joseph | Experience":
+                currentPage = "experience.html"
+                break;
+            default:
+                alert("Unable to load the page")
+
+        }
+        
     
         let index = "index.html";
         let project = "projects.html";
         let experience = "experience.html";
         // Clearing the current page inoder to pull the data for download
         document.body.innerHTML = "";
+        let introSection = document.createElement("section");
+        let skillSection = document.createElement("section");
+        let ulSkill = document.createElement("ul");
+        let expSection = document.createElement(" ");
+
         /* here I will grab the content from index.html */
 
         fetch(index)
@@ -111,21 +133,21 @@ document.addEventListener('DOMContentLoaded',() =>{
         })
         .then(function(data){
             let parser = new DOMParser();
-            indexDom = parser.parseFromString(data,"text/html");
+            let indexDom = parser.parseFromString(data,"text/html");
             indexFileFetcher(indexDom)
         })
 
         function indexFileFetcher(dom){
 
             let card = dom.querySelectorAll(".card-text");
-            let cardText = document.createElement("section");
-
+            
             for(let el of card){
-                
+                let cardText = document.createElement("p");
+                cardText.innerText = el.textContent;
+                introSection.appendChild(cardText);
             }
 
-            let intro = dom.querySelectorAll("intro");
-            let introSection = document.createElement("section");
+            let intro = dom.querySelectorAll(".intro");
 
             for(let el of intro){
                 let elText = el.textContent
@@ -134,9 +156,48 @@ document.addEventListener('DOMContentLoaded',() =>{
                 introSection.appendChild(pTag);
             }
 
+            
+            let skill = dom.querySelectorAll(".skills");
 
+            for (let el of skill){
+                let li = document.createElement("li");
+                li.textContent = el.textContent;
+                ulSkill.appendChild(li);
+            }
+            skillSection.appendChild(ulSkill);
+
+
+            // Here I will pull data from experience.html
+
+            
 
         }
+
+        fetch(experience)
+            .then(function(response){
+                return response;
+            })
+            .then(function(data){
+                let parser = new DOMParser();
+                let experienceDom = parser.parseFromString(data,"text/html");
+                experienceFileFetcher(experienceDom)
+            })
+
+            function experienceFileFetcher(dom){
+                let exp = dom.querySelectorAll(".exp-category");
+
+                for (let el of exp){
+                    if(el.tagName === "h2"){}
+                    let hTag = document.createElement("p");
+
+                    hTag.innerHtml = "<strong></strong>"
+                }
+            }
+            // Elements that I need to add in the final DOM
+            //introSection
+            //skillSection
+
+
     }
     
 })
