@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded',() =>{
         let index = "index.html";
         let project = "projects.html";
         let experience = "experience.html";
-        
+        // Clearing the current page inoder to pull the data for download
         document.body.innerHTML = "";
         /* here I will grab the content from index.html */
 
@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded',() =>{
         })
 
         function indexFileFetcher(dom){
+
             let card = dom.querySelectorAll(".card-text");
             let cardText = document.createElement("section");
 
@@ -124,13 +125,13 @@ document.addEventListener('DOMContentLoaded',() =>{
             }
 
             let intro = dom.querySelectorAll("intro");
-            let introText = document.createElement("section");
+            let introSection = document.createElement("section");
 
             for(let el of intro){
                 let elText = el.textContent
                 let pTag = document.createElement("p");
                 pTag.innerText = elText;
-                introText.appendChild(pTag);
+                introSection.appendChild(pTag);
             }
 
 
