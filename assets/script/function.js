@@ -311,9 +311,13 @@ document.addEventListener('DOMContentLoaded',() =>{
             document.body.appendChild(addressText);
 
             document.body.appendChild(introSection);
+            introSection.setAttribute("class", "pdf-section");
             document.body.appendChild(skillSection);
+            skillSection.setAttribute("class", "pdf-section");
             document.body.appendChild(projectSection);
+            projectSection.setAttribute("class","pdf-section");
             document.body.appendChild(expSection);
+            expSection.setAttribute("class", "pdf-section");
 
     }
     
