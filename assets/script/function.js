@@ -141,6 +141,7 @@ document.addEventListener('DOMContentLoaded',() =>{
             alert(error);
         })
 
+        // function to call after fetching the file
         function indexFileFetcher(dom){
 
             let intro = dom.querySelectorAll(".intro");
@@ -187,14 +188,18 @@ document.addEventListener('DOMContentLoaded',() =>{
                 alert(error)
             })
 
+            //function to call after fetching the file
             function experienceFileFetcher(dom){
                 let exp = dom.querySelectorAll(".exp-category");
+                let expHeader = document.createElement("h2");
+                expHeader.textContent = "Experience";
+                expSection.appendChild(expHeader);
 
                 for (let category of exp){
                     for(let el of category.children){
                         if (el.tagName === "H2"){
-                            let hTag = document.createElement("p");
-                            hTag.innerHTML = `<strong>${el.textContent}</strong>`;
+                            let hTag = document.createElement("h3");
+                            hTag.innerText = el.textContent;
                             expSection.appendChild(hTag);
                         }else if(el.tagName === "P"){
                             let expDate = document.createElement("p");
@@ -225,9 +230,14 @@ document.addEventListener('DOMContentLoaded',() =>{
                 projectFileFetcher(projectDom);
             })
 
+            //function to call after fetching the file
+
         function projectFileFetcher(dom){
 
             let project = dom.querySelectorAll(".project");
+            let projectHeader = document.createElement("h2");
+            projectHeader.textContent = "Projects";
+            projectSection.appendChild(projectHeader);
             for(let cat of project){
                 for(let el of cat.children){
                     if(el.tagName === "H2"){
@@ -237,7 +247,6 @@ document.addEventListener('DOMContentLoaded',() =>{
                     }else if(el.tagName === "UL"){
                         let ulProject = document.createElement("ul");
                         let projectHeader = document.createElement("h3");
-                        projectHeader.tex
                         for(let l of el.children){
                             let li = document.createElement("li");
                             li.textContent = l.textContent;
@@ -254,6 +263,9 @@ document.addEventListener('DOMContentLoaded',() =>{
             //introSection
             //skillSection
             //expSection
+            //projectSection
+
+
 
             //Creating final HTML structue 
 
@@ -302,10 +314,6 @@ document.addEventListener('DOMContentLoaded',() =>{
             document.body.appendChild(skillSection);
             document.body.appendChild(projectSection);
             document.body.appendChild(expSection);
-            
-            
-            
-            
 
     }
     
