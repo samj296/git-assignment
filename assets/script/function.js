@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded',() =>{
             }
 
             //this only applicable in experience.html
-            let categoriesExp = document.querySelectorAll(".exp-category-light","exp-category");
+            let categoriesExp = document.querySelectorAll(".exp-category-light, .exp-category");
             if (categoriesExp.length>0){
                 for (let i = 0; i<categoriesExp.length; i++){
                     if(categoriesExp[i].classList.contains("exp-category-light")){
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded',() =>{
             }
 
             //this only applicable in experience.html
-            let categoriesExp = document.querySelectorAll(".exp-category", ".exp-category-light");
+            let categoriesExp = document.querySelectorAll(".exp-category, .exp-category-light");
             if (categoriesExp.length>0){
                 for (let i = 0; i<categoriesExp.length; i++){
                     if(categoriesExp[i].classList.contains("exp-category")){
@@ -123,7 +123,8 @@ document.addEventListener('DOMContentLoaded',() =>{
         let introSection = document.createElement("section");
         let skillSection = document.createElement("section");
         let ulSkill = document.createElement("ul");
-        let expSection = document.createElement(" ");
+        let expSection = document.createElement("section");
+        let projectSection = document.createElement("section");
 
         /* here I will grab the content from index.html */
 
@@ -136,16 +137,11 @@ document.addEventListener('DOMContentLoaded',() =>{
             let indexDom = parser.parseFromString(data,"text/html");
             indexFileFetcher(indexDom)
         })
+        .catch(function(error){
+            alert(error);
+        })
 
         function indexFileFetcher(dom){
-
-            let card = dom.querySelectorAll(".card-text");
-            
-            for(let el of card){
-                let cardText = document.createElement("p");
-                cardText.innerText = el.textContent;
-                introSection.appendChild(cardText);
-            }
 
             let intro = dom.querySelectorAll(".intro");
 
@@ -157,46 +153,159 @@ document.addEventListener('DOMContentLoaded',() =>{
             }
 
             
-            let skill = dom.querySelectorAll(".skills");
-
-            for (let el of skill){
-                let li = document.createElement("li");
-                li.textContent = el.textContent;
-                ulSkill.appendChild(li);
+            let skills = dom.querySelectorAll(".skills");
+            let skillHeader = document.createElement("h2");
+            skillHeader.textContent = "Skills";
+            skillSection.appendChild(skillHeader);
+            let newUl = document.createElement("ul");
+            for (let ul of skills){
+                
+                let uList = ul.querySelectorAll("li");
+                for(let li of uList){
+                    let newLi = document.createElement("li");
+                    newLi.textContent = li.textContent;
+                    newUl.appendChild(newLi);
+                }
             }
-            skillSection.appendChild(ulSkill);
-
-
-            // Here I will pull data from experience.html
-
-            
-
+            skillSection.appendChild(newUl);
         }
+
+        // Here I will pull data from experience.html
+
+        
 
         fetch(experience)
             .then(function(response){
-                return response;
+                return response.text();
             })
             .then(function(data){
                 let parser = new DOMParser();
                 let experienceDom = parser.parseFromString(data,"text/html");
                 experienceFileFetcher(experienceDom)
             })
+            .catch(function(error){
+                alert(error)
+            })
 
             function experienceFileFetcher(dom){
                 let exp = dom.querySelectorAll(".exp-category");
 
-                for (let el of exp){
-                    if(el.tagName === "h2"){}
-                    let hTag = document.createElement("p");
-
-                    hTag.innerHtml = "<strong></strong>"
+                for (let category of exp){
+                    for(let el of category.children){
+                        if (el.tagName === "H2"){
+                            let hTag = document.createElement("p");
+                            hTag.innerHTML = `<strong>${el.textContent}</strong>`;
+                            expSection.appendChild(hTag);
+                        }else if(el.tagName === "P"){
+                            let expDate = document.createElement("p");
+                            expDate.textContent = el.textContent;
+                            expSection.appendChild(expDate);
+                        }else if(el.tagName === "UL"){
+                            let uList = document.createElement("ul");
+                            for(let l of el.children){
+                                let li = document.createElement("li");
+                                li.textContent = l.textContent;
+                                uList.appendChild(li);
+                            }
+                            expSection.appendChild(uList);
+                        }
+                    }                    
                 }
             }
+
+            /* here I will pull data from project.html */
+
+        fetch(project)
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(data){
+                let parser = new DOMParser();
+                let projectDom = parser.parseFromString(data, "text/html");
+                projectFileFetcher(projectDom);
+            })
+
+        function projectFileFetcher(dom){
+
+            let project = dom.querySelectorAll(".project");
+            for(let cat of project){
+                for(let el of cat.children){
+                    if(el.tagName === "H2"){
+                        let pHeader = document.createElement("h3");
+                        pHeader.textContent = el.textContent;
+                        projectSection.appendChild(pHeader);
+                    }else if(el.tagName === "UL"){
+                        let ulProject = document.createElement("ul");
+                        let projectHeader = document.createElement("h3");
+                        projectHeader.tex
+                        for(let l of el.children){
+                            let li = document.createElement("li");
+                            li.textContent = l.textContent;
+                            ulProject.appendChild(li);
+                        }
+                        projectSection.appendChild(ulProject);
+                    }
+                }
+            }
+        }
+            
+
             // Elements that I need to add in the final DOM
             //introSection
             //skillSection
+            //expSection
 
+            //Creating final HTML structue 
+
+            let printBtn = document.createElement("button");
+            printBtn.textContent = "Print";
+            document.body.appendChild(printBtn);
+            let backBtn = document.querySelector(".back-btn");
+
+                if(!backBtn){
+                    backBtn = document.createElement("button");
+                    backBtn.textContent = "Back";
+                    backBtn.setAttribute("class","back-btn")
+                    
+                    
+                    backBtn.addEventListener("click",() =>{
+                        window.location.href = currentPage;
+
+                    })
+
+                    document.body.prepend(backBtn);
+                }
+
+
+            printBtn.addEventListener("click",() => {
+                
+                printBtn.style.display = "none";
+                backBtn.style.display = "none";
+                window.print();
+                
+                printBtn.style.display = "inline-block";
+                backBtn.style.display = "inline-block"
+            })
+
+            document.title = "Sam Joseph - Resume"; // this will show at the top of the page when printing
+
+            let headerText = document.createElement("h2");
+            headerText.textContent = "Sam Joseph";
+
+            document.body.setAttribute("class", "pdf-body");
+            document.body.appendChild(headerText);
+            let addressText = document.createElement("p");
+            addressText.innerHTML = `Kelowna, BC V1X 6X4 <br> sam_joseph@live.com | +1 250 687 1306`;
+            document.body.appendChild(addressText);
+
+            document.body.appendChild(introSection);
+            document.body.appendChild(skillSection);
+            document.body.appendChild(projectSection);
+            document.body.appendChild(expSection);
+            
+            
+            
+            
 
     }
     

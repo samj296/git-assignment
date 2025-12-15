@@ -262,3 +262,9 @@ body{
     background-color: #BCC6CC;
 }
 
+/* styling for the print page */
+
+.pdf-body{
+    background-color: white;
+    color: black;
+}
