@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded',() =>{
             alert(error);
         })
 
-        // function to call after fetching the file
+        // function to call after fetching the index.html file
         function indexFileFetcher(dom){
 
             let intro = dom.querySelectorAll(".intro");
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded',() =>{
                 alert(error)
             })
 
-            //function to call after fetching the file
+            //function to call after fetching experience.html file
             function experienceFileFetcher(dom){
                 let exp = dom.querySelectorAll(".exp-category");
                 let expHeader = document.createElement("h2");
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded',() =>{
                 projectFileFetcher(projectDom);
             })
 
-            //function to call after fetching the file
+            //function to call after fetching the project.html file
 
         function projectFileFetcher(dom){
 
@@ -291,12 +291,12 @@ document.addEventListener('DOMContentLoaded',() =>{
 
             printBtn.addEventListener("click",() => {
                 
-                printBtn.style.display = "none";
-                backBtn.style.display = "none";
+                printBtn.setAttribute("class","btn-hide");
+                backBtn.setAttribute("class","btn-hide");
                 window.print();
                 
-                printBtn.style.display = "inline-block";
-                backBtn.style.display = "inline-block"
+                printBtn.setAttribute("class","btn-unhide");
+                backBtn.setAttribute("class","btn-unhide");
             })
 
             document.title = "Sam Joseph - Resume"; // this will show at the top of the page when printing

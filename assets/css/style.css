@@ -278,3 +278,11 @@ body{
 .pdf-section h3{
     text-decoration: underline;
 }
+
+.btn-hide{
+    display: none;
+}
+
+.btn-unhide{
+    display: inline-block
+}
