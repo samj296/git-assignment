@@ -279,10 +279,16 @@ body{
     text-decoration: underline;
 }
 
-.btn-hide{
-    display: none;
+@media print{
+    .btn-hide{
+        display: none;
+    }
 }
 
+
+
+/* 
 .btn-unhide{
     display: inline-block
-}
+} 
+    */

@@ -274,6 +274,8 @@ document.addEventListener('DOMContentLoaded',() =>{
             document.body.appendChild(printBtn);
             let backBtn = document.querySelector(".back-btn");
 
+            
+
                 if(!backBtn){
                     backBtn = document.createElement("button");
                     backBtn.textContent = "Back";
@@ -288,15 +290,15 @@ document.addEventListener('DOMContentLoaded',() =>{
                     document.body.prepend(backBtn);
                 }
 
+            printBtn.classList.add("btn-hide");
+            backBtn.classList.add("btn-hide");
+
 
             printBtn.addEventListener("click",() => {
                 
-                printBtn.setAttribute("class","btn-hide");
-                backBtn.setAttribute("class","btn-hide");
+                
                 window.print();
                 
-                printBtn.setAttribute("class","btn-unhide");
-                backBtn.setAttribute("class","btn-unhide");
             })
 
             document.title = "Sam Joseph - Resume"; // this will show at the top of the page when printing
