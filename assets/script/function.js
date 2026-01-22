@@ -1,3 +1,5 @@
+import {darkTheme, lightTheme} from "./theme.js";
+import {indexFileFetcher, projectFileFetcher, experienceFileFetcher} from "./fileFetcher.js"
 let savedTheme = localStorage.getItem("theme")
 
 document.addEventListener('DOMContentLoaded',() =>{
@@ -9,87 +11,23 @@ document.addEventListener('DOMContentLoaded',() =>{
     btnSection.appendChild(pdfBtn);
 
     pdfBtn.textContent = "Download Resume"
-    
-    
-    
-        
-        //applying the dark theme here    
-        function darkTheme(){    
-            let navBar = document.querySelector(".navbar");
-            navBar.setAttribute("data-bs-theme","dark");
-
-            let header = document.querySelector(".header-light");
-            if (header){
-                header.classList.replace("header-light", "header-dark");
-            }
-            
-
-            let bodyTheme = document.querySelector(".body-color") || document.querySelector(".body-white-theme");  
-            if (bodyTheme.classList.contains("body-white-theme")){
-                bodyTheme.classList.replace("body-white-theme", "body-color");
-            }
-
-            //this only applicable in experience.html
-            let categoriesExp = document.querySelectorAll(".exp-category-light, .exp-category");
-            if (categoriesExp.length>0){
-                for (let i = 0; i<categoriesExp.length; i++){
-                    if(categoriesExp[i].classList.contains("exp-category-light")){
-                        categoriesExp[i].classList.replace("exp-category-light" , "exp-category");
-                    }
-                }
-            }
-            themeBtn.setAttribute("class","switch-theme-dark");
-            pdfBtn.setAttribute("class","switch-theme-dark");
-            themeBtn.textContent = "Light mode";
-            savedTheme = "dark";
-        }
-
-        function lightTheme(){   
-            let navBar = document.querySelector(".navbar");
-            navBar.setAttribute("data-bs-theme","light");
-
-            let header = document.querySelector(".header-dark");
-            if (header){
-                header.classList.replace("header-dark", "header-light");
-            }
-            
-            
-            let bodyTheme = document.querySelector(".body-color"); 
-            if (bodyTheme.classList.contains("body-color")){
-                bodyTheme.classList.replace("body-color", "body-white-theme");
-            }
-
-            //this only applicable in experience.html
-            let categoriesExp = document.querySelectorAll(".exp-category, .exp-category-light");
-            if (categoriesExp.length>0){
-                for (let i = 0; i<categoriesExp.length; i++){
-                    if(categoriesExp[i].classList.contains("exp-category")){
-                        categoriesExp[i].classList.replace("exp-category" , "exp-category-light");
-                    }
-                }
-            }
-            themeBtn.setAttribute("class","switch-theme-light")
-            pdfBtn.setAttribute("class","switch-theme-light");
-            themeBtn.textContent = "Dark mode"
-            savedTheme = "light"
-        }
-        
+      
 
     if(savedTheme == null || savedTheme == "dark"){
         savedTheme = "dark";
-        darkTheme();
+        darkTheme(themeBtn, pdfBtn, savedTheme);
     }else {
         savedTheme = "light"
-        lightTheme();
+        lightTheme(themeBtn, pdfBtn, savedTheme);
     }
 
     themeBtn.addEventListener("click",() =>{
         if(savedTheme === "dark"){
-            lightTheme();
             localStorage.setItem("theme", "light")
+            savedTheme = lightTheme(themeBtn, pdfBtn, savedTheme);
         }else if(savedTheme === "light"){
-            darkTheme();
             localStorage.setItem("theme", "dark")
+            savedTheme = darkTheme(themeBtn, pdfBtn, savedTheme);
         }
     })
 
@@ -135,45 +73,14 @@ document.addEventListener('DOMContentLoaded',() =>{
         .then(function(data){
             let parser = new DOMParser();
             let indexDom = parser.parseFromString(data,"text/html");
-            indexFileFetcher(indexDom)
+            indexFileFetcher(indexDom, introSection, skillSection);
         })
         .catch(function(error){
             alert(error);
         })
 
-        // function to call after fetching the index.html file
-        function indexFileFetcher(dom){
-
-            let intro = dom.querySelectorAll(".intro");
-
-            for(let el of intro){
-                let elText = el.textContent
-                let pTag = document.createElement("p");
-                pTag.innerText = elText;
-                introSection.appendChild(pTag);
-            }
-
-            
-            let skills = dom.querySelectorAll(".skills");
-            let skillHeader = document.createElement("h2");
-            skillHeader.textContent = "Skills";
-            skillSection.appendChild(skillHeader);
-            let newUl = document.createElement("ul");
-            for (let ul of skills){
-                
-                let uList = ul.querySelectorAll("li");
-                for(let li of uList){
-                    let newLi = document.createElement("li");
-                    newLi.textContent = li.textContent;
-                    newUl.appendChild(newLi);
-                }
-            }
-            skillSection.appendChild(newUl);
-        }
 
         // Here I will pull data from experience.html
-
-        
 
         fetch(experience)
             .then(function(response){
@@ -182,41 +89,13 @@ document.addEventListener('DOMContentLoaded',() =>{
             .then(function(data){
                 let parser = new DOMParser();
                 let experienceDom = parser.parseFromString(data,"text/html");
-                experienceFileFetcher(experienceDom)
+                experienceFileFetcher(experienceDom, expSection)
             })
             .catch(function(error){
                 alert(error)
             })
 
-            //function to call after fetching experience.html file
-            function experienceFileFetcher(dom){
-                let exp = dom.querySelectorAll(".exp-category");
-                let expHeader = document.createElement("h2");
-                expHeader.textContent = "Experience";
-                expSection.appendChild(expHeader);
-
-                for (let category of exp){
-                    for(let el of category.children){
-                        if (el.tagName === "H2"){
-                            let hTag = document.createElement("h3");
-                            hTag.innerText = el.textContent;
-                            expSection.appendChild(hTag);
-                        }else if(el.tagName === "P"){
-                            let expDate = document.createElement("p");
-                            expDate.textContent = el.textContent;
-                            expSection.appendChild(expDate);
-                        }else if(el.tagName === "UL"){
-                            let uList = document.createElement("ul");
-                            for(let l of el.children){
-                                let li = document.createElement("li");
-                                li.textContent = l.textContent;
-                                uList.appendChild(li);
-                            }
-                            expSection.appendChild(uList);
-                        }
-                    }                    
-                }
-            }
+            
 
             /* here I will pull data from project.html */
 
@@ -227,36 +106,10 @@ document.addEventListener('DOMContentLoaded',() =>{
             .then(function(data){
                 let parser = new DOMParser();
                 let projectDom = parser.parseFromString(data, "text/html");
-                projectFileFetcher(projectDom);
+                projectFileFetcher(projectDom, projectSection);
             })
 
-            //function to call after fetching the project.html file
-
-        function projectFileFetcher(dom){
-
-            let project = dom.querySelectorAll(".project");
-            let projectHeader = document.createElement("h2");
-            projectHeader.textContent = "Projects";
-            projectSection.appendChild(projectHeader);
-            for(let cat of project){
-                for(let el of cat.children){
-                    if(el.tagName === "H2"){
-                        let pHeader = document.createElement("h3");
-                        pHeader.textContent = el.textContent;
-                        projectSection.appendChild(pHeader);
-                    }else if(el.tagName === "UL"){
-                        let ulProject = document.createElement("ul");
-                        let projectHeader = document.createElement("h3");
-                        for(let l of el.children){
-                            let li = document.createElement("li");
-                            li.textContent = l.textContent;
-                            ulProject.appendChild(li);
-                        }
-                        projectSection.appendChild(ulProject);
-                    }
-                }
-            }
-        }
+        
             
 
             // Elements that I need to add in the final DOM
