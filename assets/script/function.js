@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded',() =>{
     //this is for the pdf download
     pdfBtn.addEventListener("click",pdfDownload);
 
-    function pdfDownload(){
+    async function pdfDownload(){
         let currentPage = "";
         //selecting the current page by title and will save the link in a variable
         switch(document.title){
@@ -66,48 +66,78 @@ document.addEventListener('DOMContentLoaded',() =>{
 
         /* here I will grab the content from index.html */
 
-        fetch(index)
-        .then(function(response){
-            return response.text();
-        })
-        .then(function(data){
-            let parser = new DOMParser();
-            let indexDom = parser.parseFromString(data,"text/html");
+        try{
+            const response = await fetch(index);
+            const data = await response.text();
+            const parser = new DOMParser();
+            const indexDom = parser.parseFromString(data, "text/html");
             indexFileFetcher(indexDom, introSection, skillSection);
-        })
-        .catch(function(error){
+        }catch(error){
             alert(error);
-        })
+        }
+
+        // fetch(index)
+        // .then(function(response){
+        //     return response.text();
+        // })
+        // .then(function(data){
+        //     let parser = new DOMParser();
+        //     let indexDom = parser.parseFromString(data,"text/html");
+        //     indexFileFetcher(indexDom, introSection, skillSection);
+        // })
+        // .catch(function(error){
+        //     alert(error);
+        // })
 
 
         // Here I will pull data from experience.html
 
-        fetch(experience)
-            .then(function(response){
-                return response.text();
-            })
-            .then(function(data){
-                let parser = new DOMParser();
-                let experienceDom = parser.parseFromString(data,"text/html");
-                experienceFileFetcher(experienceDom, expSection)
-            })
-            .catch(function(error){
-                alert(error)
-            })
+        try{
+            const response = await fetch(experience);
+            const data = await response.text();
+            const parser = new DOMParser();
+            const experienceDom = parser.parseFromString(data, "text/html");
+            experienceFileFetcher(experienceDom, expSection);
+        }catch(error){
+            alert(error)
+        }
+
+        // fetch(experience)
+        //     .then(function(response){
+        //         return response.text();
+        //     })
+        //     .then(function(data){
+        //         let parser = new DOMParser();
+        //         let experienceDom = parser.parseFromString(data,"text/html");
+        //         experienceFileFetcher(experienceDom, expSection)
+        //     })
+        //     .catch(function(error){
+        //         alert(error)
+        //     })
 
             
 
             /* here I will pull data from project.html */
 
-        fetch(project)
-            .then(function(response){
-                return response.text();
-            })
-            .then(function(data){
-                let parser = new DOMParser();
-                let projectDom = parser.parseFromString(data, "text/html");
-                projectFileFetcher(projectDom, projectSection);
-            })
+        try{
+            const response = await fetch(project)
+            const data = await response.text();
+            const parser = new DOMParser();
+            const projectDom = parser.parseFromString(data, "text/html");
+            projectFileFetcher(projectDom, projectSection)
+        }catch(error){
+            alert(error);
+        }
+
+        // fetch(project)
+        //     .then(function(response){
+        //         return response.text();
+        //     })
+        //     .then(function(data){
+        //         let parser = new DOMParser();
+        //         let projectDom = parser.parseFromString(data, "text/html");
+        //         projectFileFetcher(projectDom, projectSection);
+        //     })
 
         
             
