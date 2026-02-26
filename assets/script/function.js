@@ -3,6 +3,9 @@ import {indexFileFetcher, projectFileFetcher, experienceFileFetcher} from "./fil
 let savedTheme = localStorage.getItem("theme")
 
 document.addEventListener('DOMContentLoaded',() =>{
+
+
+
     let themeBtn = document.createElement('button');
     let btnSection = document.querySelector('.btn-section');
     let pdfBtn = document.createElement('button');
@@ -205,5 +208,4 @@ document.addEventListener('DOMContentLoaded',() =>{
             expSection.setAttribute("class", "pdf-section");
 
     }
-    
 })

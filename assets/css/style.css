@@ -196,6 +196,15 @@ body{
     border: grey solid;
 }
 
+.github-section{
+    border: grey solid;
+}
+
+.git-profile{
+    font-size: 0.9rem;
+}
+
+
 .skill-section{
     border: grey solid;
     margin: 5px 0px;
