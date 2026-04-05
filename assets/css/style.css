@@ -198,6 +198,9 @@ body{
 
 .github-section{
     border: grey solid;
+    color: white;
+    background-color: black;
+    text-align: center;
 }
 
 .git-profile{
@@ -205,7 +208,20 @@ body{
 }
 
 .github-section .git-img{
-    width: 90vw;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: 5px;
+    border: grey solid;
+    width: 98%;
+    height: auto;
+}
+
+.github-section .git-streak{
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-bottom: 5px;
+    border: grey solid;
+    width: 50%;
     height: auto;
 }
 
