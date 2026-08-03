@@ -30,6 +30,12 @@ body{
     clear: both;
 }
 
+.badge-section{
+    text-align: center;
+    background-color: white;
+    
+}
+
 
     /* this is for the top bar indicating the page is opened in desktop or mobile device */
     

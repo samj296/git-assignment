@@ -4,11 +4,27 @@ let savedTheme = localStorage.getItem("theme")
 
 document.addEventListener('DOMContentLoaded',() =>{
 
-
+/* 
+    <div class="badge" data-iframe-width="500" data-iframe-height="270" data-share-badge-id="88736856-3a5e-4fd7-875c-2331482bc87f" data-share-badge-host="https://www.credly.com"></div>
+    <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+*/
 
     let themeBtn = document.createElement('button');
-    let btnSection = document.querySelector('.btn-section');
+    const btnSection = document.querySelector('.btn-section');
     let pdfBtn = document.createElement('button');
+    const badgeSection = document.querySelector('.badge-section')
+
+    const badgeDiv = document.createElement("div");
+    badgeDiv.dataset.iframeWidth = "900";
+    badgeDiv.dataset.iframeHeight = "270";
+    badgeDiv.dataset.shareBadgeId = "88736856-3a5e-4fd7-875c-2331482bc87f";
+    badgeDiv.dataset.shareBadgeHost = "https://www.credly.com";
+
+    const script = document.createElement("script");
+    script.src = "//cdn.credly.com/assets/utilities/embed.js";
+
+    document.body.appendChild(script);
+    badgeSection.appendChild(badgeDiv);
 
     btnSection.appendChild(themeBtn);
     btnSection.appendChild(pdfBtn);
