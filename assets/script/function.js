@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded',() =>{
     const badgeSection = document.querySelector('.badge-section')
 
     const badgeDiv = document.createElement("div");
-    badgeDiv.dataset.iframeWidth = "900";
+    // badgeDiv.dataset.iframeWidth = "300";
+    badgeSize(badgeDiv)
     badgeDiv.dataset.iframeHeight = "270";
     badgeDiv.dataset.shareBadgeId = "88736856-3a5e-4fd7-875c-2331482bc87f";
     badgeDiv.dataset.shareBadgeHost = "https://www.credly.com";
@@ -225,3 +226,16 @@ document.addEventListener('DOMContentLoaded',() =>{
 
     }
 })
+
+function badgeSize(badgeDiv){
+    const screenWidth = window.innerWidth
+    if(screenWidth<600){
+        badgeDiv.dataset.iframeWidth = "300";
+    }else if(screenWidth<1200){
+        badgeDiv.dataset.iframeWidth = "450";
+    }else if(screenWidth<1800){
+        badgeDiv.dataset.iframeWidth = "900";
+    }else{
+        badgeDiv.dataset.iframeWidth = "150";
+    }
+};
